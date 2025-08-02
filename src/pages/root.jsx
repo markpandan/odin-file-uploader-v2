@@ -5,7 +5,9 @@ const Root = () => {
   return (
     <>
       <Navbar />
-      <Outlet />
+      <div className={`grow bg-[var(--primary-color)] p-4`}>
+        <Outlet />
+      </div>
     </>
   );
 };

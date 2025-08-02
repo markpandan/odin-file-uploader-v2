@@ -9,8 +9,8 @@ const Navbar = () => {
   return (
     <div
       className={ctl(`
-        flex justify-between bg-[var(--secondary-color)] p-4 text-xl text-white
-        dark:border-b-1 dark:border-[var(--accent-color)]
+        flex justify-between border-b-1 bg-[var(--secondary-color)] p-4 text-xl text-white
+        dark:border-[var(--accent-color)]
       `)}
     >
       <Link to={"/"}>

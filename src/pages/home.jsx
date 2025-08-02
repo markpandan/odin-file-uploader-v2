@@ -1,12 +1,11 @@
-import ctl from "@netlify/classnames-template-literals";
 import FileItem from "../components/FileItem";
 import FolderItem from "../components/FolderItem";
-import Toolbar from "../components/Toolbar";
 import GridContainer from "../components/GridContainer";
+import Toolbar from "../components/Toolbar";
 
 const Home = () => {
   return (
-    <div className={`grow bg-[var(--primary-color)] p-4`}>
+    <>
       <Toolbar />
       <div className="mt-8 flex flex-col gap-6 px-4">
         <div>
@@ -34,7 +33,7 @@ const Home = () => {
           <FileItem />
         </GridContainer>
       </div>
-    </div>
+    </>
   );
 };
 
