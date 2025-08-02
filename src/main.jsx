@@ -5,6 +5,7 @@ import ErrorPage from "./error-page";
 import "./main.css";
 import Home from "./pages/home";
 import Root from "./pages/root";
+import { ColorSchemeProvider } from "./contexts/ColorSchemeContext";
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <ColorSchemeProvider>
+      <RouterProvider router={router} />
+    </ColorSchemeProvider>
   </StrictMode>
 );
