@@ -2,28 +2,34 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+@theme {
+  --breakpoint-xs: 30rem; /* 480px */
+}
+
 :root {
-  --primary-color: var(--color-slate-950);
+  --primary-color: var(--color-zinc-200);
   --secondary-color: var(--color-blue-900);
-  --tertiary-color: var(--color-blue-400);
+  --tertiary-color: var(--color-zinc-300);
+  --accent-color: var(--color-blue-400);
+
+  color: var(--color-slate-950);
 }
 
 :root.dark {
-  --primary-color: var(--color-slate-500);
-  --secondary-color: var(--color-blue-900);
-  --tertiary-color: var(--color-blue-400);
+  --primary-color: var(--color-slate-900);
+  --secondary-color: var(--color-slate-950);
+  --tertiary-color: var(--color-slate-800);
+  --accent-color: var(--color-blue-700);
+
+  color: var(--color-zinc-200);
 }
 
 html {
   scroll-behavior: smooth;
 }
 
-body {
-  color: white;
-}
-
 #root {
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
 }

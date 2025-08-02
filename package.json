@@ -1,5 +1,5 @@
 {
-  "name": "my-react-template",
+  "name": "odin-file-uploader-v2",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -16,6 +16,7 @@
     "@tailwindcss/vite": "^4.1.11",
     "prop-types": "^15.8.1",
     "react": "^19.1.0",
+    "react-bootstrap-icons": "^1.11.6",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.6.2",
     "tailwindcss": "^4.1.11"

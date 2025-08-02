@@ -1,31 +1,38 @@
-import useColorScheme from "../hooks/useColorScheme";
+import ctl from "@netlify/classnames-template-literals";
+import FileItem from "../components/FileItem";
+import FolderItem from "../components/FolderItem";
+import Toolbar from "../components/Toolbar";
+import GridContainer from "../components/GridContainer";
 
 const Home = () => {
-  const { darkMode, setDarkMode } = useColorScheme();
   return (
-    <div className="flex grow flex-col items-center justify-center gap-8 bg-[var(--primary-color)]">
-      <h1 className="text-6xl">
-        Welcome to my{" "}
-        <span className="text-[var(--tertiary-color)]">React</span> template!
-      </h1>
-      <div className="text-start">
-        <h2 className="text-2xl">This template uses the following libraries</h2>
-        <ul className="mt-4 list-inside list-disc columns-2 text-lg">
-          <li>Tailwind CSS</li>
-          <li>React DOM</li>
-          <li>Headless UI</li>
-          <li>Classnames Template Literals</li>
-        </ul>
-      </div>
-      <button onClick={() => setDarkMode(!darkMode)}>Toggle</button>
+    <div className={`h-full bg-[var(--primary-color)] p-4`}>
+      <Toolbar />
+      <div className="mt-8 flex flex-col gap-6 px-4">
+        <div>
+          <h2 className="mb-2 text-base">Folders</h2>
+          <hr className="border-[var(--accent-color)]" />
+        </div>
+        <GridContainer>
+          <FolderItem />
+          <FolderItem />
+          <FolderItem />
+          <FolderItem />
+        </GridContainer>
 
-      <div
-        className={`
-          bg-white p-4 text-black
-          dark:bg-black dark:text-white
-        `}
-      >
-        Test Container
+        <div>
+          <h2 className="mb-2 text-base">Files</h2>
+          <hr className="border-[var(--accent-color)]" />
+        </div>
+        <GridContainer>
+          <FileItem />
+          <FileItem />
+          <FileItem />
+          <FileItem />
+          <FileItem />
+          <FileItem />
+          <FileItem />
+        </GridContainer>
       </div>
     </div>
   );
