@@ -19,7 +19,7 @@
   --primary-color: var(--color-slate-900);
   --secondary-color: var(--color-slate-950);
   --tertiary-color: var(--color-slate-800);
-  --accent-color: var(--color-blue-700);
+  --accent-color: var(--color-blue-800);
 
   color: var(--color-zinc-200);
 }

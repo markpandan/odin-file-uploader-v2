@@ -10,6 +10,7 @@ const Navbar = () => {
     <div
       className={ctl(`
         flex justify-between border-b-1 bg-[var(--secondary-color)] p-4 text-xl text-white
+        transition-colors duration-300
         dark:border-[var(--accent-color)]
       `)}
     >

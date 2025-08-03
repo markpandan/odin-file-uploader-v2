@@ -10,7 +10,7 @@ export function ColorSchemeProvider({ children }) {
   );
 
   useEffect(() => {
-    localStorage.theme = darkMode ? "dark" : "light";
+    localStorage.setItem("theme", darkMode ? "dark" : "light");
 
     if (darkMode) {
       document.documentElement.classList.add("dark");
