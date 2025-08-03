@@ -3,11 +3,16 @@ import FileItem from "../components/FileItem";
 import FolderItem from "../components/FolderItem";
 import StorageContainer from "../components/StorageContainer";
 import Toolbar from "../components/Toolbar";
+import NewFileModal from "../components/NewFileModal";
+import NewFolderModal from "../components/NewFolderModal";
 
 const Home = () => {
   const [gridView, setGridView] = useState(
     localStorage.view === "grid" || !("view" in localStorage)
   );
+
+  const [isOpenNewFileModal, setOpenNewFileModal] = useState(false);
+  const [isOpenNewFolderModal, setOpenNewFolderModal] = useState(false);
 
   useEffect(() => {
     localStorage.setItem("view", gridView ? "grid" : "list");
@@ -15,7 +20,18 @@ const Home = () => {
 
   return (
     <>
-      <Toolbar gridToggle={gridView} setGridToggle={setGridView} />
+      {isOpenNewFileModal && (
+        <NewFileModal onClose={() => setOpenNewFileModal(false)} />
+      )}
+      {isOpenNewFolderModal && (
+        <NewFolderModal onClose={() => setOpenNewFolderModal(false)} />
+      )}
+      <Toolbar
+        gridToggle={gridView}
+        setGridToggle={setGridView}
+        onNewFileClick={() => setOpenNewFileModal(true)}
+        onNewFolderClick={() => setOpenNewFolderModal(true)}
+      />
       <div className="mt-8 flex flex-col gap-6 px-4">
         <div>
           <h2 className="mb-2 text-base">Folders</h2>

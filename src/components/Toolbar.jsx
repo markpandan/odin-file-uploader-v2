@@ -1,7 +1,12 @@
 import ctl from "@netlify/classnames-template-literals";
 import { FolderPlus, FileEarmarkPlus, Grid, List } from "react-bootstrap-icons";
 
-const Toolbar = ({ gridToggle, setGridToggle }) => {
+const Toolbar = ({
+  gridToggle,
+  setGridToggle,
+  onNewFileClick,
+  onNewFolderClick,
+}) => {
   return (
     <div
       className={ctl(`
@@ -19,10 +24,13 @@ const Toolbar = ({ gridToggle, setGridToggle }) => {
           *:not-last:hover:bg-[var(--accent-color)]
         `)}
       >
-        <button aria-label="Create New Folder">
+        <button
+          aria-label="Create New Folder"
+          onClick={() => onNewFolderClick()}
+        >
           <FolderPlus />
         </button>
-        <button aria-label="Create New File">
+        <button aria-label="Create New File" onClick={() => onNewFileClick()}>
           <FileEarmarkPlus />
         </button>
 
