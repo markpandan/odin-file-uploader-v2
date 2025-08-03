@@ -1,7 +1,7 @@
 import ctl from "@netlify/classnames-template-literals";
 import { FileEarmark } from "react-bootstrap-icons";
 
-const FileItem = ({ gridView }) => {
+const FileItem = ({ name, gridView }) => {
   // const [gridView, setGridView] = useState(true);
 
   return gridView ? (
@@ -13,7 +13,7 @@ const FileItem = ({ gridView }) => {
     >
       <div>
         <p className="line-clamp-1">
-          <FileEarmark className="mr-4 inline size-5" /> New File
+          <FileEarmark className="mr-4 inline size-5" /> {name}
         </p>
       </div>
       <div
@@ -33,7 +33,7 @@ const FileItem = ({ gridView }) => {
       `)}
     >
       <p className="line-clamp-1">
-        <FileEarmark className="mr-4 inline size-10" /> New File
+        <FileEarmark className="mr-4 inline size-10" /> {name}
       </p>
     </div>
   );

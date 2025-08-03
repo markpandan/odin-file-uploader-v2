@@ -5,10 +5,12 @@ import StorageContainer from "../components/StorageContainer";
 import Toolbar from "../components/Toolbar";
 import NewFileModal from "../components/NewFileModal";
 import NewFolderModal from "../components/NewFolderModal";
-import { useOutletContext, useNavigate } from "react-router-dom";
+import { useOutletContext, useNavigate, useParams } from "react-router-dom";
+import useGetData from "../hooks/useGetData";
 
 const Home = () => {
-  const { user } = useOutletContext();
+  const { user, token } = useOutletContext();
+  const { folderId } = useParams();
   const navigate = useNavigate();
 
   const [gridView, setGridView] = useState(
@@ -28,13 +30,32 @@ const Home = () => {
     localStorage.setItem("view", gridView ? "grid" : "list");
   }, [gridView]);
 
+  const { data, setLoading } = useGetData(
+    `cloud/folders/${folderId || ""}`,
+    token
+  );
+
   return (
     <>
       {isOpenNewFileModal && (
-        <NewFileModal onClose={() => setOpenNewFileModal(false)} />
+        <NewFileModal
+          folderId={folderId || ""}
+          onClose={() => setOpenNewFileModal(false)}
+          onAfterSubmit={() => {
+            setOpenNewFileModal(false);
+            setLoading(true);
+          }}
+        />
       )}
       {isOpenNewFolderModal && (
-        <NewFolderModal onClose={() => setOpenNewFolderModal(false)} />
+        <NewFolderModal
+          folderId={folderId || ""}
+          onClose={() => setOpenNewFolderModal(false)}
+          onAfterSubmit={() => {
+            setOpenNewFolderModal(false);
+            setLoading(true);
+          }}
+        />
       )}
       <Toolbar
         gridView={gridView}
@@ -48,10 +69,14 @@ const Home = () => {
           <hr className="border-[var(--accent-color)]" />
         </div>
         <StorageContainer gridView={gridView}>
-          <FolderItem />
-          <FolderItem />
-          <FolderItem />
-          <FolderItem />
+          {data.folders &&
+            data.folders.map((folder) => (
+              <FolderItem
+                key={folder.id}
+                name={folder.name}
+                onClick={() => navigate(`/${folder.id}`, { replace: true })}
+              />
+            ))}
         </StorageContainer>
 
         <div>
@@ -59,13 +84,10 @@ const Home = () => {
           <hr className="border-[var(--accent-color)]" />
         </div>
         <StorageContainer gridView={gridView}>
-          <FileItem gridView={gridView} />
-          <FileItem gridView={gridView} />
-          <FileItem gridView={gridView} />
-          <FileItem gridView={gridView} />
-          <FileItem gridView={gridView} />
-          <FileItem gridView={gridView} />
-          <FileItem gridView={gridView} />
+          {data.files &&
+            data.files.map((file) => (
+              <FileItem key={file.id} name={file.name} gridView={gridView} />
+            ))}
         </StorageContainer>
       </div>
     </>
