@@ -13,6 +13,7 @@ const Login = () => {
   });
 
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   if (token) {
     return <Navigate to="/" />;
@@ -21,8 +22,11 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    setLoading(true);
     const response = await fetchPost("users/login", { ...inputs });
+
     const data = await response.json();
+    setLoading(false);
 
     if (!response.ok) {
       setError(data.message);
@@ -82,9 +86,19 @@ const Login = () => {
 
         <button
           type="submit"
-          className="m-auto w-min rounded-xl bg-[var(--accent-color)] px-4 py-2"
+          className={ctl(`
+            m-auto mt-6 flex items-center gap-4 rounded-xl bg-[var(--accent-color)] px-4 py-2
+          `)}
+          disabled={loading}
         >
-          Login
+          {loading && (
+            <Spinner
+              className={ctl(
+                `size-6 animate-spin fill-[var(--primary-color)] transition-all`
+              )}
+            />
+          )}
+          <p className="inline">{loading ? "Logging In" : "Login"}</p>
         </button>
       </form>
 

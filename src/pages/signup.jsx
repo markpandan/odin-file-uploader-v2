@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import useForm from "../hooks/useForm";
 import { fetchPost } from "../utils/fetchUtils";
+import Spinner from "../components/Spinner";
 
 const Signup = () => {
   const { token } = useAuth();
@@ -14,6 +15,7 @@ const Signup = () => {
     password: "",
   });
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   if (token) {
     return <Navigate to="/login" />;
@@ -22,9 +24,12 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    setLoading(true);
     const response = await fetchPost("users/signup", { ...inputs });
 
     const data = await response.json();
+    setLoading(false);
+
     if (!response.ok) {
       setError(data.message);
     } else {
@@ -95,9 +100,19 @@ const Signup = () => {
 
         <button
           type="submit"
-          className="m-auto mt-6 w-max rounded-xl bg-[var(--accent-color)] px-4 py-2"
+          className={ctl(`
+            m-auto mt-6 flex items-center gap-4 rounded-xl bg-[var(--accent-color)] px-4 py-2
+          `)}
+          disabled={loading}
         >
-          Sign Up
+          {loading && (
+            <Spinner
+              className={ctl(
+                `size-6 animate-spin fill-[var(--primary-color)] transition-all`
+              )}
+            />
+          )}
+          <p className="inline">{loading ? "Sigining Up..." : "Sign Up"}</p>
         </button>
       </form>
     </div>
