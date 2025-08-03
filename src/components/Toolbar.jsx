@@ -2,15 +2,15 @@ import ctl from "@netlify/classnames-template-literals";
 import { FolderPlus, FileEarmarkPlus, Grid, List } from "react-bootstrap-icons";
 
 const Toolbar = ({
-  gridToggle,
-  setGridToggle,
+  gridView,
+  onGridToggle,
   onNewFileClick,
   onNewFolderClick,
 }) => {
   return (
     <div
       className={ctl(`
-        flex justify-between rounded-2xl bg-[var(--secondary-color)] px-4 py-3 text-xl text-white
+        flex justify-between rounded-2xl bg-[var(--secondary-color)] px-4 py-3 text-lg text-white
         shadow-md transition-colors duration-300
       `)}
     >
@@ -37,10 +37,10 @@ const Toolbar = ({
         <div className="flex items-stretch overflow-hidden rounded-lg border-2">
           <button
             aria-label="Grid View"
-            onClick={() => setGridToggle(true)}
+            onClick={() => onGridToggle(true)}
             className={ctl(`
               border-r-2
-              ${gridToggle && "bg-[var(--accent-color)]"}
+              ${gridView && "bg-[var(--accent-color)]"}
               px-2
             `)}
           >
@@ -48,10 +48,10 @@ const Toolbar = ({
           </button>
           <button
             aria-label="List View"
-            onClick={() => setGridToggle(false)}
+            onClick={() => onGridToggle(false)}
             className={ctl(
               `
-                ${!gridToggle && "bg-[var(--accent-color)]"}
+                ${!gridView && "bg-[var(--accent-color)]"}
                 px-2
               `
             )}

@@ -1,9 +1,9 @@
 import ctl from "@netlify/classnames-template-literals";
 import useColorScheme from "../hooks/useColorScheme";
-import { Sun, Moon } from "react-bootstrap-icons";
+import { Sun, Moon, Person } from "react-bootstrap-icons";
 import { Link } from "react-router-dom";
 
-const Navbar = () => {
+const Navbar = ({ user }) => {
   const { darkMode, setDarkMode } = useColorScheme();
 
   return (
@@ -23,8 +23,20 @@ const Navbar = () => {
           *:flex *:items-center
         `}
       >
-        <Link to={"/login"}>Log In</Link>
-        <Link to={"/signup"}>Sign Up</Link>
+        {Object.keys(user).length !== 0 ? (
+          <>
+            <p>
+              <Person className="mr-2 size-6" /> {user.username}
+            </p>
+            <Link to={"/logout"}>Log Out</Link>
+          </>
+        ) : (
+          <>
+            <Link to={"/login"}>Log In</Link>
+            <Link to={"/signup"}>Sign Up</Link>
+          </>
+        )}
+
         <button onClick={() => setDarkMode(!darkMode)} className="*:size-4">
           {darkMode ? <Moon /> : <Sun />}
         </button>

@@ -1,12 +1,15 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import useAuth from "../hooks/useAuth";
 
 const Root = () => {
+  const { user, setToken, token } = useAuth();
+
   return (
     <>
-      <Navbar />
+      <Navbar user={user} />
       <div className={`grow bg-[var(--primary-color)] p-4`}>
-        <Outlet />
+        <Outlet context={{ user, setToken, token }} />
       </div>
     </>
   );

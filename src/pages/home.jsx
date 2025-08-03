@@ -5,14 +5,24 @@ import StorageContainer from "../components/StorageContainer";
 import Toolbar from "../components/Toolbar";
 import NewFileModal from "../components/NewFileModal";
 import NewFolderModal from "../components/NewFolderModal";
+import { useOutletContext, useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const { user } = useOutletContext();
+  const navigate = useNavigate();
+
   const [gridView, setGridView] = useState(
     localStorage.view === "grid" || !("view" in localStorage)
   );
 
   const [isOpenNewFileModal, setOpenNewFileModal] = useState(false);
   const [isOpenNewFolderModal, setOpenNewFolderModal] = useState(false);
+
+  useEffect(() => {
+    if (Object.keys(user).length == 0) {
+      navigate("/login", { replace: true });
+    }
+  }, [navigate, user]);
 
   useEffect(() => {
     localStorage.setItem("view", gridView ? "grid" : "list");
@@ -27,8 +37,8 @@ const Home = () => {
         <NewFolderModal onClose={() => setOpenNewFolderModal(false)} />
       )}
       <Toolbar
-        gridToggle={gridView}
-        setGridToggle={setGridView}
+        gridView={gridView}
+        onGridToggle={(isGrid) => setGridView(isGrid)}
         onNewFileClick={() => setOpenNewFileModal(true)}
         onNewFolderClick={() => setOpenNewFolderModal(true)}
       />

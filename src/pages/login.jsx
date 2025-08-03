@@ -1,7 +1,37 @@
 import ctl from "@netlify/classnames-template-literals";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, Navigate } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
+import useForm from "../hooks/useForm";
+import { fetchPost } from "../utils/fetchUtils";
 
 const Login = () => {
+  const { token, setToken } = useAuth();
+  const { inputs, handleChange } = useForm({
+    username: "",
+    password: "",
+  });
+
+  const [error, setError] = useState("");
+
+  if (token) {
+    return <Navigate to="/" />;
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const response = await fetchPost("users/login", { ...inputs });
+    const data = await response.json();
+
+    if (!response.ok) {
+      setError(data.message);
+    } else {
+      setToken(data.output.token);
+      setError("");
+    }
+  };
+
   return (
     <div
       className={ctl(
@@ -18,15 +48,22 @@ const Login = () => {
       </h2>
 
       <form
-        action=""
+        onSubmit={handleSubmit}
         className="m-auto mt-6 mb-6 flex w-min flex-col gap-4 text-start"
       >
+        {error && (
+          <div className="rounded-2xl bg-[var(--accent-color)] p-4 text-center">
+            {error}
+          </div>
+        )}
         <div>
           <label htmlFor="username">Username</label>
           <input
             type="text"
             id="username"
             name="username"
+            onChange={handleChange}
+            value={inputs.username}
             className="block rounded-lg border-1 px-4 py-2"
           />
         </div>
@@ -35,8 +72,10 @@ const Login = () => {
           <label htmlFor="password">Password</label>
           <input
             type="password"
-            name="password"
             id="password"
+            name="password"
+            onChange={handleChange}
+            value={inputs.password}
             className="block rounded-lg border-1 px-4 py-2"
           />
         </div>
