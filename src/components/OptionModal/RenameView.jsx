@@ -24,10 +24,10 @@ const RenameView = ({ focusType, focusItem, onClose, onReturn, onRename }) => {
     [focusType, focusItem, inputs, token]
   );
 
-  const { error, loading, handleSubmit } = useFormSubmit(fetchOptions, () => {
+  const { error, loading, handleSubmit } = useFormSubmit(() => {
     onRename();
     onClose();
-  });
+  }, fetchOptions);
 
   return (
     <>

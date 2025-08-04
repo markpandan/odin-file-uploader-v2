@@ -42,6 +42,7 @@ const OptionModal = ({ focusType, focusItem, onClose, onChange }) => {
             focusType={focusType}
             focusItem={focusItem}
             onClose={onClose}
+            onDelete={onChange}
             onReturn={() => {
               setDeleteView(false);
               setDefaultView(true);

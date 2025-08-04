@@ -19,7 +19,7 @@ const fetchOptions = async ({ method, route, body, token }) => {
   }
 };
 
-const useFormSubmit = (fetch, successCb) => {
+const useFormSubmit = (successCb, fetch) => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 

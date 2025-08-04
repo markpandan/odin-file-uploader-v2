@@ -1,13 +1,38 @@
 import ctl from "@netlify/classnames-template-literals";
+import { useMemo } from "react";
 import { Folder, FileEarmark, ArrowReturnLeft } from "react-bootstrap-icons";
+import { useOutletContext } from "react-router-dom";
+import useFormSubmit from "../../hooks/useFormSubmit";
+import ErrorAlert from "../ErrorAlert";
+import ButtonWithLoader from "../ButtonWithLoader";
 
-const DeleteView = ({ focusType, focusItem, onClose, onReturn }) => {
+const DeleteView = ({ focusType, focusItem, onClose, onReturn, onDelete }) => {
+  const { token } = useOutletContext();
+
+  const fetchOptions = useMemo(
+    () => ({
+      method: "DELETE",
+      route:
+        focusType == "folder"
+          ? `cloud/folders/${focusItem.id}/delete`
+          : focusType == "file" && `cloud/files/${focusItem.id}/delete`,
+      token,
+    }),
+    [focusType, focusItem, token]
+  );
+
+  const { error, loading, handleSubmit } = useFormSubmit(() => {
+    onDelete();
+    onClose();
+  }, fetchOptions);
+
   return (
     <>
       <ArrowReturnLeft
         onClick={onReturn}
         className="absolute top-4 size-6 cursor-pointer"
       />
+      <ErrorAlert error={error} />
       <h2 className="text-center text-xl">
         Are you sure do you want to delete this{" "}
         {focusType == "file" ? "file" : focusType == "folder" && "folder"}?
@@ -28,7 +53,9 @@ const DeleteView = ({ focusType, focusItem, onClose, onReturn }) => {
           *:cursor-pointer *:rounded-md *:bg-[var(--accent-color)] *:px-4 *:py-2
         `)}
       >
-        <button>Delete</button>
+        <ButtonWithLoader isLoading={loading} onClick={handleSubmit}>
+          {loading ? "Deleting..." : "Delete"}
+        </ButtonWithLoader>
         <button onClick={() => onClose()}>Cancel</button>
       </div>
     </>
