@@ -44,6 +44,7 @@ const Home = () => {
       {isOpenNewFileModal && (
         <NewFileModal
           folderId={folderId || ""}
+          directories={data.directories}
           onClose={() => setOpenNewFileModal(false)}
           onAfterSubmit={() => setLoading(true)}
         />

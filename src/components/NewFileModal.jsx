@@ -6,7 +6,7 @@ import { fetchPostFormData } from "../utils/fetchUtils";
 import ButtonWithLoader from "./ButtonWithLoader";
 import ErrorAlert from "./ErrorAlert";
 
-const NewFileModal = ({ folderId, onClose, onAfterSubmit }) => {
+const NewFileModal = ({ folderId, directories, onClose, onAfterSubmit }) => {
   const { token } = useOutletContext();
 
   const [error, setError] = useState("");
@@ -32,10 +32,14 @@ const NewFileModal = ({ folderId, onClose, onAfterSubmit }) => {
 
     setLoading(true);
 
-    console.log(folderId);
+    const relativeDirectory = directories
+      .map((directory) => directory.id)
+      .join("/");
+
     const formData = new FormData();
-    formData.append("uploadFile", selectedFile);
     formData.append("parentId", folderId);
+    formData.append("relativeDirectory", relativeDirectory);
+    formData.append("uploadFile", selectedFile);
 
     const response = await fetchPostFormData(
       "cloud/files/new",
