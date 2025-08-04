@@ -17,14 +17,7 @@ const NewFileModal = ({ folderId, directories, onClose, onAfterSubmit }) => {
     if (e.target.files.length == 0) return;
 
     const file = e.target.files[0];
-    const type = e.target.files[0].type;
-
-    if (type.match(/^image/)) {
-      setSelectedFile(file);
-      setError("");
-    } else {
-      setError("Only images are allowed");
-    }
+    setSelectedFile(file);
   };
 
   const handleSubmit = async (e) => {

@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import { ArrowReturnLeft } from "react-bootstrap-icons";
 import { useOutletContext } from "react-router-dom";
 import useForm from "../../hooks/useForm";
-import useFormSubmit from "../../hooks/useFormSubmit";
+import useActionSubmit from "../../hooks/useActionSubmit";
 import ButtonWithLoader from "../ButtonWithLoader";
 import ErrorAlert from "../ErrorAlert";
 
@@ -24,7 +24,7 @@ const RenameView = ({ focusType, focusItem, onClose, onReturn, onRename }) => {
     [focusType, focusItem, inputs, token]
   );
 
-  const { error, loading, handleSubmit } = useFormSubmit(() => {
+  const { error, loading, handleSubmit } = useActionSubmit(() => {
     onRename();
     onClose();
   }, fetchOptions);
