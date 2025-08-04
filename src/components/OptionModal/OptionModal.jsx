@@ -15,7 +15,7 @@ const OptionModal = ({ focusType, focusItem, onClose }) => {
     <div className="fixed top-0 left-0 flex h-full w-full items-center justify-center bg-black/75">
       <div
         className={ctl(`
-          relative flex h-max w-1/3 flex-col gap-4 rounded-2xl bg-[var(--primary-color)] p-4 pt-12
+          relative flex h-max w-1/3 flex-col gap-4 rounded-2xl bg-[var(--primary-color)] p-4 pt-16
         `)}
       >
         {defaultView && (
@@ -42,10 +42,32 @@ const OptionModal = ({ focusType, focusItem, onClose }) => {
             focusType={focusType}
             focusItem={focusItem}
             onClose={onClose}
+            onReturn={() => {
+              setDeleteView(false);
+              setDefaultView(true);
+            }}
           />
         )}
-        {renameView && <RenameView focusItem={focusItem} onClose={onClose} />}
-        {shareView && <ShareView focusItem={focusItem} onClose={onClose} />}
+        {renameView && (
+          <RenameView
+            focusItem={focusItem}
+            onClose={onClose}
+            onReturn={() => {
+              setRenameView(false);
+              setDefaultView(true);
+            }}
+          />
+        )}
+        {shareView && (
+          <ShareView
+            focusItem={focusItem}
+            onClose={onClose}
+            onReturn={() => {
+              setShareView(false);
+              setDefaultView(true);
+            }}
+          />
+        )}
       </div>
     </div>
   );

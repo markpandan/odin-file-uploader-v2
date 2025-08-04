@@ -1,8 +1,13 @@
 import ctl from "@netlify/classnames-template-literals";
+import { ArrowReturnLeft } from "react-bootstrap-icons";
 
-const ShareView = ({ focusItem, onClose }) => {
+const ShareView = ({ focusItem, onClose, onReturn }) => {
   return (
     <>
+      <ArrowReturnLeft
+        onClick={onReturn}
+        className="absolute top-4 size-6 cursor-pointer"
+      />
       <h2 className="text-2xl">Share "{focusItem.name}"</h2>
       <div className="rounded-lg bg-[var(--tertiary-color)] px-4 py-6"></div>
       <div className="text-center text-lg">

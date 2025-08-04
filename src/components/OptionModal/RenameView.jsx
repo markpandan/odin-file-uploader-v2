@@ -1,7 +1,8 @@
 import ctl from "@netlify/classnames-template-literals";
 import useForm from "../../hooks/useForm";
+import { ArrowReturnLeft } from "react-bootstrap-icons";
 
-const RenameView = ({ focusItem, onClose }) => {
+const RenameView = ({ focusItem, onClose, onReturn }) => {
   const { inputs, handleChange } = useForm({ name: focusItem.name });
 
   const handleSubmit = (e) => {
@@ -11,6 +12,10 @@ const RenameView = ({ focusItem, onClose }) => {
   return (
     <>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <ArrowReturnLeft
+          onClick={onReturn}
+          className="absolute top-4 size-6 cursor-pointer"
+        />
         <label htmlFor="name" className="text-xl">
           Rename " <span className="italic">{focusItem.name}</span> "
         </label>

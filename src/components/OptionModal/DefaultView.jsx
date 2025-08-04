@@ -73,9 +73,12 @@ const DefaultView = ({
         `)}
       >
         {focusType == "file" && (
-          <button onClick={() => onShare()}>Share</button>
+          <>
+            <button onClick={() => onShare()}>Share</button>
+            <button>Download</button>
+          </>
         )}
-        <button>Download</button>
+
         <button onClick={() => onClose()}>Cancel</button>
       </div>
     </>

@@ -1,9 +1,13 @@
 import ctl from "@netlify/classnames-template-literals";
-import { Folder, FileEarmark } from "react-bootstrap-icons";
+import { Folder, FileEarmark, ArrowReturnLeft } from "react-bootstrap-icons";
 
-const DeleteView = ({ focusType, focusItem, onClose }) => {
+const DeleteView = ({ focusType, focusItem, onClose, onReturn }) => {
   return (
     <>
+      <ArrowReturnLeft
+        onClick={onReturn}
+        className="absolute top-4 size-6 cursor-pointer"
+      />
       <h2 className="text-center text-xl">
         Are you sure do you want to delete this{" "}
         {focusType == "file" ? "file" : focusType == "folder" && "folder"}?
