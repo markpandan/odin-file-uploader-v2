@@ -29,7 +29,9 @@ const NewFolderModal = ({ folderId, onClose, onAfterSubmit }) => {
       setError(data.message);
     } else {
       setError("");
+
       onAfterSubmit();
+      onClose();
     }
   };
 

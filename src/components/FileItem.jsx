@@ -1,9 +1,7 @@
 import ctl from "@netlify/classnames-template-literals";
-import { FileEarmark } from "react-bootstrap-icons";
+import { FileEarmark, ThreeDotsVertical } from "react-bootstrap-icons";
 
-const FileItem = ({ name, gridView }) => {
-  // const [gridView, setGridView] = useState(true);
-
+const FileItem = ({ name, gridView, onOptionClick }) => {
   return gridView ? (
     <div
       className={ctl(`
@@ -11,10 +9,25 @@ const FileItem = ({ name, gridView }) => {
         hover:bg-[var(--accent-color)]
       `)}
     >
-      <div>
-        <p className="line-clamp-1">
-          <FileEarmark className="mr-4 inline size-5" /> {name}
-        </p>
+      <div className="flex items-center justify-between gap-2">
+        <FileEarmark className="inline size-6" />
+        <div className="flex grow items-center">
+          <p className="line-clamp-1 grow">{name}</p>
+          <div
+            className="w-6"
+            onClick={(e) => {
+              e.stopPropagation();
+              onOptionClick();
+            }}
+          >
+            <ThreeDotsVertical
+              className={ctl(`
+                inline size-6 rounded-full
+                hover:bg-[var(--tertiary-color)]/50
+              `)}
+            />
+          </div>
+        </div>
       </div>
       <div
         className={ctl(`
@@ -28,13 +41,27 @@ const FileItem = ({ name, gridView }) => {
   ) : (
     <div
       className={ctl(`
-        rounded-2xl bg-[var(--tertiary-color)] p-4
+        flex items-center rounded-2xl bg-[var(--tertiary-color)] p-4
         hover:bg-[var(--accent-color)]
       `)}
     >
-      <p className="line-clamp-1">
+      <p className="line-clamp-1 grow">
         <FileEarmark className="mr-4 inline size-10" /> {name}
       </p>
+      <div
+        className="w-6"
+        onClick={(e) => {
+          e.stopPropagation();
+          onOptionClick();
+        }}
+      >
+        <ThreeDotsVertical
+          className={ctl(`
+            inline size-6 rounded-full
+            hover:bg-[var(--tertiary-color)]/50
+          `)}
+        />
+      </div>
     </div>
   );
 };

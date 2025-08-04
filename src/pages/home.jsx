@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
+import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import FileItem from "../components/FileItem";
 import FolderItem from "../components/FolderItem";
-import StorageContainer from "../components/StorageContainer";
-import Toolbar from "../components/Toolbar";
 import NewFileModal from "../components/NewFileModal";
 import NewFolderModal from "../components/NewFolderModal";
-import { useOutletContext, useNavigate, useParams } from "react-router-dom";
+import OptionModal from "../components/OptionModal";
+import StorageContainer from "../components/StorageContainer";
+import Toolbar from "../components/Toolbar";
 import useGetData from "../hooks/useGetData";
 
 const Home = () => {
@@ -19,6 +20,9 @@ const Home = () => {
 
   const [isOpenNewFileModal, setOpenNewFileModal] = useState(false);
   const [isOpenNewFolderModal, setOpenNewFolderModal] = useState(false);
+  const [isOpenInfoModal, setOpenInfoModal] = useState(false);
+
+  const [focusItem, setFocusItem] = useState({ type: "", item: "" });
 
   useEffect(() => {
     if (Object.keys(user).length == 0) {
@@ -41,23 +45,25 @@ const Home = () => {
         <NewFileModal
           folderId={folderId || ""}
           onClose={() => setOpenNewFileModal(false)}
-          onAfterSubmit={() => {
-            setOpenNewFileModal(false);
-            setLoading(true);
-          }}
+          onAfterSubmit={() => setLoading(true)}
         />
       )}
       {isOpenNewFolderModal && (
         <NewFolderModal
           folderId={folderId || ""}
           onClose={() => setOpenNewFolderModal(false)}
-          onAfterSubmit={() => {
-            setOpenNewFolderModal(false);
-            setLoading(true);
-          }}
+          onAfterSubmit={() => setLoading(true)}
+        />
+      )}
+      {isOpenInfoModal && (
+        <OptionModal
+          focusType={focusItem.type}
+          focusItem={focusItem.item}
+          onClose={() => setOpenInfoModal(false)}
         />
       )}
       <Toolbar
+        directories={data.directories}
         gridView={gridView}
         onGridToggle={(isGrid) => setGridView(isGrid)}
         onNewFileClick={() => setOpenNewFileModal(true)}
@@ -74,7 +80,11 @@ const Home = () => {
               <FolderItem
                 key={folder.id}
                 name={folder.name}
-                onClick={() => navigate(`/${folder.id}`, { replace: true })}
+                onItemClick={() => navigate(`/${folder.id}`, { replace: true })}
+                onOptionClick={() => {
+                  setFocusItem({ type: "folder", item: folder });
+                  setOpenInfoModal(true);
+                }}
               />
             ))}
         </StorageContainer>
@@ -86,7 +96,15 @@ const Home = () => {
         <StorageContainer gridView={gridView}>
           {data.files &&
             data.files.map((file) => (
-              <FileItem key={file.id} name={file.name} gridView={gridView} />
+              <FileItem
+                key={file.id}
+                name={file.name}
+                gridView={gridView}
+                onOptionClick={() => {
+                  setFocusItem({ type: "file", item: file });
+                  setOpenInfoModal(true);
+                }}
+              />
             ))}
         </StorageContainer>
       </div>

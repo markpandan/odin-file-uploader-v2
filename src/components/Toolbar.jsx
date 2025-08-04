@@ -1,7 +1,10 @@
 import ctl from "@netlify/classnames-template-literals";
+import { Fragment } from "react";
 import { FolderPlus, FileEarmarkPlus, Grid, List } from "react-bootstrap-icons";
+import { Link } from "react-router-dom";
 
 const Toolbar = ({
+  directories,
   gridView,
   onGridToggle,
   onNewFileClick,
@@ -11,11 +14,34 @@ const Toolbar = ({
     <div
       className={ctl(`
         flex justify-between rounded-2xl bg-[var(--secondary-color)] px-4 py-3 text-lg text-white
-        shadow-md transition-colors duration-300
+        shadow-md transition-colors duration-300 select-none
       `)}
     >
-      <h1 className={`flex gap-6`}>
-        My Drive <span>{">"}</span> Downloads <span>{">"}</span> Pictures
+      <h1 className={`line-clamp-1`}>
+        <Link
+          to={"/"}
+          className={ctl(`
+            rounded-lg px-2
+            hover:bg-[var(--accent-color)]
+          `)}
+        >
+          My Drive
+        </Link>
+        {directories &&
+          directories.map((directory) => (
+            <Fragment key={directory.id}>
+              <span>{">"}</span>
+              <Link
+                to={`/${directory.id}`}
+                className={ctl(`
+                  rounded-lg px-2
+                  hover:bg-[var(--accent-color)]
+                `)}
+              >
+                {directory.name}
+              </Link>
+            </Fragment>
+          ))}
       </h1>
       <div
         className={ctl(`

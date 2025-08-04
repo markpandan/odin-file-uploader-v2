@@ -49,6 +49,7 @@ const NewFileModal = ({ folderId, onClose, onAfterSubmit }) => {
     } else {
       setError("");
       onAfterSubmit();
+      onClose();
     }
   };
 
