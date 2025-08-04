@@ -4,7 +4,8 @@ import { Link, Navigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import useForm from "../hooks/useForm";
 import { fetchPost } from "../utils/fetchUtils";
-import Spinner from "../components/Spinner";
+import ButtonWithLoader from "../components/ButtonWithLoader";
+import ErrorAlert from "../components/ErrorAlert";
 
 const Login = () => {
   const { token, setToken } = useAuth();
@@ -56,11 +57,10 @@ const Login = () => {
         onSubmit={handleSubmit}
         className="m-auto mt-6 mb-6 flex w-min flex-col gap-4 text-start"
       >
-        {error && (
-          <div className="rounded-2xl bg-[var(--accent-color)] p-4 text-center">
-            {error}
-          </div>
-        )}
+        <ErrorAlert
+          error={error}
+          className="rounded-2xl bg-[var(--accent-color)] p-4 text-center"
+        />
         <div>
           <label htmlFor="username">Username</label>
           <input
@@ -84,23 +84,15 @@ const Login = () => {
             className="block rounded-lg border-1 px-4 py-2"
           />
         </div>
-
-        <button
+        <ButtonWithLoader
           type="submit"
+          isLoading={loading}
           className={ctl(`
             m-auto mt-6 flex items-center gap-4 rounded-xl bg-[var(--accent-color)] px-4 py-2
           `)}
-          disabled={loading}
         >
-          {loading && (
-            <Spinner
-              className={ctl(
-                `size-6 animate-spin fill-[var(--primary-color)] transition-all`
-              )}
-            />
-          )}
-          <p className="inline">{loading ? "Logging In" : "Login"}</p>
-        </button>
+          {loading ? "Logging In" : "Login"}
+        </ButtonWithLoader>
       </form>
 
       <p>

@@ -5,6 +5,8 @@ import { useOutletContext } from "react-router-dom";
 import useForm from "../hooks/useForm";
 import { fetchPost } from "../utils/fetchUtils";
 import Spinner from "./Spinner";
+import ButtonWithLoader from "./ButtonWithLoader";
+import ErrorAlert from "./ErrorAlert";
 
 const NewFolderModal = ({ folderId, onClose, onAfterSubmit }) => {
   const { token } = useOutletContext();
@@ -65,20 +67,13 @@ const NewFolderModal = ({ folderId, onClose, onAfterSubmit }) => {
               *:cursor-pointer *:rounded-lg *:px-4 *:py-2
             `)}
           >
-            <button
+            <ButtonWithLoader
               type="submit"
+              isLoading={loading}
               className="flex items-center gap-4 bg-[var(--accent-color)]"
-              disabled={loading}
             >
-              {loading && (
-                <Spinner
-                  className={ctl(
-                    `size-6 animate-spin fill-[var(--primary-color)]`
-                  )}
-                />
-              )}
-              <p>{loading ? "Submitting..." : "Submit"}</p>
-            </button>
+              {loading ? "Submitting..." : "Submit"}
+            </ButtonWithLoader>
             <button
               type="button"
               className="bg-[var(--tertiary-color)]"

@@ -5,7 +5,7 @@ import DeleteView from "./DeleteView";
 import RenameView from "./RenameView";
 import ShareView from "./ShareView";
 
-const OptionModal = ({ focusType, focusItem, onClose }) => {
+const OptionModal = ({ focusType, focusItem, onClose, onChange }) => {
   const [defaultView, setDefaultView] = useState(true);
   const [renameView, setRenameView] = useState(false);
   const [shareView, setShareView] = useState(false);
@@ -50,8 +50,10 @@ const OptionModal = ({ focusType, focusItem, onClose }) => {
         )}
         {renameView && (
           <RenameView
+            focusType={focusType}
             focusItem={focusItem}
             onClose={onClose}
+            onRename={onChange}
             onReturn={() => {
               setRenameView(false);
               setDefaultView(true);

@@ -9,7 +9,7 @@ export const fetchGet = async (route, options) => {
       "Content-Type": "application/json",
     },
     mode: "cors",
-    signal,
+    signal: signal || "",
   });
 };
 
@@ -48,10 +48,14 @@ export const fetchPut = async (route, body, token) => {
   });
 };
 
-export const fetchDelete = async (route, signal) => {
+export const fetchDelete = async (route, body, token) => {
   return await fetch(`${HOST_NAME}/${route}`, {
     method: "DELETE",
+    headers: {
+      Authorization: token || "",
+      "Content-Type": "application/json",
+    },
     mode: "cors",
-    signal,
+    body: JSON.stringify(body),
   });
 };

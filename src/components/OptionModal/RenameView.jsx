@@ -1,13 +1,33 @@
 import ctl from "@netlify/classnames-template-literals";
-import useForm from "../../hooks/useForm";
+import { useMemo } from "react";
 import { ArrowReturnLeft } from "react-bootstrap-icons";
+import { useOutletContext } from "react-router-dom";
+import useForm from "../../hooks/useForm";
+import useFormSubmit from "../../hooks/useFormSubmit";
+import ButtonWithLoader from "../ButtonWithLoader";
+import ErrorAlert from "../ErrorAlert";
 
-const RenameView = ({ focusItem, onClose, onReturn }) => {
+const RenameView = ({ focusType, focusItem, onClose, onReturn, onRename }) => {
+  const { token } = useOutletContext();
+
   const { inputs, handleChange } = useForm({ name: focusItem.name });
+  const fetchOptions = useMemo(
+    () => ({
+      method: "PUT",
+      route:
+        focusType == "folder"
+          ? `cloud/folders/${focusItem.id}/rename`
+          : focusType == "file" && `cloud/files/${focusItem.id}/rename`,
+      body: { name: inputs.name },
+      token,
+    }),
+    [focusType, focusItem, inputs, token]
+  );
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
+  const { error, loading, handleSubmit } = useFormSubmit(fetchOptions, () => {
+    onRename();
+    onClose();
+  });
 
   return (
     <>
@@ -16,6 +36,7 @@ const RenameView = ({ focusItem, onClose, onReturn }) => {
           onClick={onReturn}
           className="absolute top-4 size-6 cursor-pointer"
         />
+        <ErrorAlert error={error} />
         <label htmlFor="name" className="text-xl">
           Rename " <span className="italic">{focusItem.name}</span> "
         </label>
@@ -33,8 +54,10 @@ const RenameView = ({ focusItem, onClose, onReturn }) => {
             *:cursor-pointer *:rounded-md *:bg-[var(--accent-color)] *:px-4 *:py-2
           `)}
         >
-          <button type="submit">Save</button>
-          <button type="button" onClick={() => onClose()}>
+          <ButtonWithLoader type="submit" isLoading={loading}>
+            {loading ? "Saving..." : "Save"}
+          </ButtonWithLoader>
+          <button type="button" disabled={loading} onClick={() => onClose()}>
             Cancel
           </button>
         </div>

@@ -20,7 +20,7 @@ const Home = () => {
 
   const [isOpenNewFileModal, setOpenNewFileModal] = useState(false);
   const [isOpenNewFolderModal, setOpenNewFolderModal] = useState(false);
-  const [isOpenInfoModal, setOpenInfoModal] = useState(false);
+  const [isOpenOptionModal, setOpenOptionModal] = useState(false);
 
   const [focusItem, setFocusItem] = useState({ type: "", item: "" });
 
@@ -55,13 +55,15 @@ const Home = () => {
           onAfterSubmit={() => setLoading(true)}
         />
       )}
-      {isOpenInfoModal && (
+      {isOpenOptionModal && (
         <OptionModal
           focusType={focusItem.type}
           focusItem={focusItem.item}
-          onClose={() => setOpenInfoModal(false)}
+          onChange={() => setLoading(true)}
+          onClose={() => setOpenOptionModal(false)}
         />
       )}
+
       <Toolbar
         directories={data.directories}
         gridView={gridView}
@@ -83,7 +85,7 @@ const Home = () => {
                 onItemClick={() => navigate(`/${folder.id}`, { replace: true })}
                 onOptionClick={() => {
                   setFocusItem({ type: "folder", item: folder });
-                  setOpenInfoModal(true);
+                  setOpenOptionModal(true);
                 }}
               />
             ))}
@@ -102,7 +104,7 @@ const Home = () => {
                 gridView={gridView}
                 onOptionClick={() => {
                   setFocusItem({ type: "file", item: file });
-                  setOpenInfoModal(true);
+                  setOpenOptionModal(true);
                 }}
               />
             ))}

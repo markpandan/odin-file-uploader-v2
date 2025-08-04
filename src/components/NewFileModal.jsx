@@ -3,7 +3,8 @@ import { useState } from "react";
 import { XLg } from "react-bootstrap-icons";
 import { useOutletContext } from "react-router-dom";
 import { fetchPostFormData } from "../utils/fetchUtils";
-import Spinner from "./Spinner";
+import ButtonWithLoader from "./ButtonWithLoader";
+import ErrorAlert from "./ErrorAlert";
 
 const NewFileModal = ({ folderId, onClose, onAfterSubmit }) => {
   const { token } = useOutletContext();
@@ -68,11 +69,10 @@ const NewFileModal = ({ folderId, onClose, onAfterSubmit }) => {
           encType="multipart/form-data"
           className="p-4"
         >
-          {error && (
-            <div className="rounded-2xl bg-[var(--accent-color)] p-4 text-center">
-              {error}
-            </div>
-          )}
+          <ErrorAlert
+            error={error}
+            className="rounded-2xl bg-[var(--accent-color)] p-4 text-center"
+          />
           <input
             type="file"
             name="file"
@@ -89,20 +89,13 @@ const NewFileModal = ({ folderId, onClose, onAfterSubmit }) => {
               *:cursor-pointer *:rounded-lg *:px-4 *:py-2
             `)}
           >
-            <button
+            <ButtonWithLoader
               type="submit"
+              isLoading={loading}
               className="flex items-center gap-4 bg-[var(--accent-color)]"
-              disabled={loading}
             >
-              {loading && (
-                <Spinner
-                  className={ctl(
-                    `size-6 animate-spin fill-[var(--primary-color)]`
-                  )}
-                />
-              )}
-              <p>{loading ? "Uploading..." : "Upload File"}</p>
-            </button>
+              {loading ? "Uploading..." : "Upload File"}
+            </ButtonWithLoader>
             <button
               type="button"
               className="bg-[var(--tertiary-color)]"
