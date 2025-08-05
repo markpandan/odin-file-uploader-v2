@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useOutletContext, useParams } from "react-router-dom";
+import { useOutletContext, useParams, useNavigate } from "react-router-dom";
 import FileItem from "../components/FileItem";
 import FolderItem from "../components/FolderItem";
 import NewFileModal from "../components/NewFileModal";
@@ -25,19 +25,20 @@ const Home = () => {
   const [focusItem, setFocusItem] = useState({ type: "", item: "" });
 
   useEffect(() => {
-    if (Object.keys(user).length == 0) {
+    if (Object.keys(user).length == 0 || !token) {
       navigate("/login", { replace: true });
     }
-  }, [navigate, user]);
+  }, [navigate, user, token]);
+
+  const { data, setLoading } = useGetData(
+    `cloud/folders/${folderId || ""}`,
+    token,
+    { authenticate: true }
+  );
 
   useEffect(() => {
     localStorage.setItem("view", gridView ? "grid" : "list");
   }, [gridView]);
-
-  const { data, setLoading } = useGetData(
-    `cloud/folders/${folderId || ""}`,
-    token
-  );
 
   return (
     <>

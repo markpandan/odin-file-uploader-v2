@@ -5,6 +5,11 @@ import {
   PencilSquare,
   Trash,
 } from "react-bootstrap-icons";
+import useActionSubmit from "../../hooks/useActionSubmit";
+import { useOutletContext } from "react-router-dom";
+import ErrorAlert from "../ErrorAlert";
+import ButtonWithLoader from "../ButtonWithLoader";
+import { useMemo } from "react";
 
 const DefaultView = ({
   focusType,
@@ -14,6 +19,25 @@ const DefaultView = ({
   onRename,
   onDelete,
 }) => {
+  const { token } = useOutletContext();
+
+  const options = useMemo(
+    () => ({
+      method: "GET",
+      route: `cloud/files/${focusItem.id}/download`,
+      token,
+    }),
+    [focusItem.id, token]
+  );
+
+  const {
+    error,
+    loading,
+    handleSubmit: handleDownload,
+  } = useActionSubmit((output) => {
+    window.open(output.url, "_blank");
+  }, options);
+
   return (
     <>
       <div className="flex items-center gap-4">
@@ -39,6 +63,7 @@ const DefaultView = ({
           `)}
         />
       </div>
+      <ErrorAlert error={error} />
       <div
         className={ctl(`
           flex gap-4 rounded-lg bg-[var(--tertiary-color)] p-4
@@ -52,6 +77,7 @@ const DefaultView = ({
             <>
               <p>Size:</p>
               <p>Share:</p>
+              <p>Format:</p>
             </>
           )}
         </div>
@@ -62,6 +88,7 @@ const DefaultView = ({
             <>
               <p>{focusItem.size}</p>
               <p>{focusItem.to_share ? "True" : "False"}</p>
+              <p>.{focusItem.format}</p>
             </>
           )}
         </div>
@@ -75,7 +102,9 @@ const DefaultView = ({
         {focusType == "file" && (
           <>
             <button onClick={() => onShare()}>Share</button>
-            <button>Download</button>
+            <ButtonWithLoader isLoading={loading} onClick={handleDownload}>
+              {loading ? "Downloading..." : "Download"}
+            </ButtonWithLoader>
           </>
         )}
 

@@ -10,6 +10,7 @@ import Login from "./pages/login";
 import Logout from "./pages/logout";
 import Root from "./pages/root";
 import Signup from "./pages/signup";
+import Share from "./pages/share";
 
 const router = createBrowserRouter([
   {
@@ -18,12 +19,16 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
+        path: "/:folderId",
+        element: <Home />,
+      },
+      {
         index: true,
         element: <Home />,
       },
       {
-        path: "/:folderId",
-        element: <Home />,
+        path: "/share/:fileId",
+        element: <Share />,
       },
       {
         path: "/login",

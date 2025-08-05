@@ -44,7 +44,7 @@ const useActionSubmit = (successCb, fetch) => {
         setError(data.message);
       } else {
         setError("");
-        successCb();
+        successCb(data.output);
       }
     } catch (error) {
       console.error(error);

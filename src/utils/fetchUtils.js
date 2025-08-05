@@ -1,7 +1,8 @@
 const HOST_NAME = import.meta.env.VITE_API_URL;
 
 export const fetchGet = async (route, options) => {
-  const { signal, token } = options;
+  const { token, signal } = options;
+
   return await fetch(`${HOST_NAME}/${route}`, {
     method: "GET",
     headers: {
@@ -9,7 +10,7 @@ export const fetchGet = async (route, options) => {
       "Content-Type": "application/json",
     },
     mode: "cors",
-    signal: signal || "",
+    signal: signal || undefined,
   });
 };
 
