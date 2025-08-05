@@ -16,10 +16,13 @@ const DeleteView = ({ focusType, focusItem, onClose, onReturn, onDelete }) => {
         focusType == "folder"
           ? `cloud/folders/${focusItem.id}/delete`
           : focusType == "file" && `cloud/files/${focusItem.id}/delete`,
-      body: focusType == "file" && {
-        public_id: focusItem.public_id,
-        resource_type: focusItem.resource_type,
-      },
+      body:
+        !focusType == "file"
+          ? {}
+          : {
+              public_id: focusItem.public_id,
+              resource_type: focusItem.resource_type,
+            },
       token,
     }),
     [focusType, focusItem, token]
