@@ -1,5 +1,5 @@
 import ctl from "@netlify/classnames-template-literals";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ArrowReturnLeft, Clipboard } from "react-bootstrap-icons";
 import { useOutletContext } from "react-router-dom";
 import useActionSubmit from "../../hooks/useActionSubmit";
@@ -7,7 +7,7 @@ import ButtonWithLoader from "../ButtonWithLoader";
 import ErrorAlert from "../ErrorAlert";
 import useForm from "../../hooks/useForm";
 
-const ShareView = ({ focusItem, onClose, onReturn }) => {
+const ShareView = ({ focusItem, onClose, onShare, onReturn }) => {
   const { token } = useOutletContext();
 
   const [link, setLink] = useState("");
@@ -23,7 +23,17 @@ const ShareView = ({ focusItem, onClose, onReturn }) => {
     [focusItem.id, inputs.share, token]
   );
 
+  useEffect(() => {
+    if (focusItem.to_share) {
+      setLink(`${window.location.href}share/${focusItem.id}`);
+    } else {
+      setLink("");
+    }
+  }, [focusItem]);
+
   const { error, loading, handleSubmit } = useActionSubmit((output) => {
+    onShare();
+
     if (output.share) {
       setLink(`${window.location.href}share/${focusItem.id}`);
     } else {

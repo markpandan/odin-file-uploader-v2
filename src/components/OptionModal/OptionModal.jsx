@@ -65,6 +65,7 @@ const OptionModal = ({ focusType, focusItem, onClose, onChange }) => {
           <ShareView
             focusItem={focusItem}
             onClose={onClose}
+            onShare={onChange}
             onReturn={() => {
               setShareView(false);
               setDefaultView(true);
